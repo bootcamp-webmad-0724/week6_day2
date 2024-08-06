@@ -1,8 +1,36 @@
-# React + Vite
+# Mapa de Google Maps con react-google-maps/api
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+````javascript
+import { useState } from 'react'
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
-Currently, two official plugins are available:
+function CustomMap() {
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "_____TU_API_KEY_____"
+  })
+
+  const [map, setMap] = useState(null)
+
+  const onLoad = (map) => console.log('Aquí haz lo que necesites tras la carga del mapa')
+  const onUnmount = () => setMap(null)
+
+  return isLoaded && (
+    <GoogleMap
+      mapContainerStyle={{ height: '800px' }}
+      zoom={12}
+      onLoad={onLoad}
+      center={{ lat: -3.745, lng: -38.523 }}
+      onUnmount={onUnmount}
+
+    >
+      <Marker position={{ lat: -3.745, lng: -38.523 }} />
+      <Marker position={{ lat: -3.725, lng: -38.513 }} />
+      <Marker position={{ lat: -3.735, lng: -38.533 }} />
+
+    </GoogleMap>
+  )
+}
+
+export default CustomMap
+````
